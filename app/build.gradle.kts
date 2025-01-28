@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.finalprojectresturant"
+    namespace = "com.example.plantsuniverse"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.finalprojectresturant"
+        applicationId = "com.example.plantsuniverse"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
