@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.finalprojectresturant"
+    namespace = "com.example.plantsuniverse"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.finalprojectresturant"
+        applicationId = "com.example.plantsuniverse"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -72,4 +72,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.google.firebase:firebase-analytics:22.0.0")
 }
