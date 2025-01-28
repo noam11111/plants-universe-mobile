@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="12dp">
+
+        <!-- Edit and Delete Icons -->
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/white"
+                app:icon="@drawable/ic_edit"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/black" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/white"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/black" />
+        </LinearLayout>
+
+        <!-- Post Image -->
+
+        <!-- Post Title -->
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/postImage"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/darker_gray"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Post Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_post_img"
+            app:layout_constraintDimensionRatio="1:1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/postTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/postImage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:text="Tips for growing flowers"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Author Name -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/postTitle"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_user"
+                app:tint="@android:color/black" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/postAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Noam"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
