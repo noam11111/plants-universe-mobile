@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.finalprojectresturant"
+    namespace = "com.example.plantsuniverse"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.finalprojectresturant"
+        applicationId = "com.example.plantsuniverse"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.ui.auth)
+    implementation(libs.firebase.auth)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(platform(libs.firebase.bom))
