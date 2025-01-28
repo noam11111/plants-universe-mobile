@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "674536853195",
+    "project_id": "plants-universe",
+    "storage_bucket": "plants-universe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674536853195:android:eb3a1348fa87b09d89d54e",
+        "android_client_info": {
+          "package_name": "com.example.finalprojectresturant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiRIyDkAMTywIw8ADSp5HQRV87m-dpuw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674536853195:android:fbbd059d112fecd089d54e",
+        "android_client_info": {
+          "package_name": "com.example.plantsuniverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiRIyDkAMTywIw8ADSp5HQRV87m-dpuw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
