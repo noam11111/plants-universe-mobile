@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +17,7 @@ import com.example.plantsuniverse.ui.main.fragments.feed.FeedAdapter
 
 class Profile : Fragment() {
     private var binding: FragmentProfileBinding? = null
+    private var cameraLauncher: ActivityResultLauncher<Void?>? = null
     private var isEditing = false
 
 
@@ -23,6 +27,19 @@ class Profile : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding?.root
+
+        if (binding != null) {
+            cameraLauncher =
+                registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+                    bitmap?.let {
+                        binding!!.profilePicture.setImageBitmap(it) //TODO: send image to server
+                    } ?: Toast.makeText(
+                        requireContext(),
+                        "Error taking picture",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
         return view
     }
 
@@ -38,6 +55,10 @@ class Profile : Fragment() {
                 LinearLayoutManager(requireContext())
             val posts = getPosts()
             profileView.profilePostsRecyclerView.adapter = FeedAdapter(posts, true)
+
+            profileView.profilePicture.setOnClickListener {
+                cameraLauncher?.launch(null)
+            }
 
             profileView.profilePageEditButton.setOnClickListener {
 

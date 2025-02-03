@@ -1,4 +1,4 @@
-package com.example.plantsuniverse
+package com.example.plantsuniverse.ui.main
 
 import android.os.Bundle
 import androidx.core.view.ViewCompat

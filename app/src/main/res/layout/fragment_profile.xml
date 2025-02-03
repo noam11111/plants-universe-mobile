@@ -34,6 +34,7 @@
                     android:orientation="vertical"
                     android:paddingEnd="4dp">
 
+                    <!--                    TODO: add image upload -->
                     <ImageView
                         android:id="@+id/profile_picture"
                         android:layout_width="72dp"
