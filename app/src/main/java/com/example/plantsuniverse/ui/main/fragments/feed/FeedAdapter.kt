@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsuniverse.databinding.PostBinding
-import com.example.plantsuniverse.model.Post
+import com.example.plantsuniverse.data.posts.Post
+import com.example.plantsuniverse.data.posts.PostWithOwner
 
 class FeedAdapter(
-    private val posts: List<Post>, private val isEditable: Boolean = false,
+    private val posts: List<PostWithOwner>, private val isEditable: Boolean = false,
 ) : RecyclerView.Adapter<FeedViewHolder>() {
 
     var listener: AdapterView.OnItemClickListener? = null

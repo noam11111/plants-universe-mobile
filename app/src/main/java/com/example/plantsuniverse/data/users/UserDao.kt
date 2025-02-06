@@ -28,4 +28,10 @@ interface UserDao {
 
     @Upsert
     fun upsertUser(user: User)
+
+    @Upsert
+    fun upsertAll(vararg users: User)
+
+    @Query("SELECT id FROM users WHERE id IN (:ids)")
+    suspend fun getExistingUserIds(ids: List<String>): List<String>
 }

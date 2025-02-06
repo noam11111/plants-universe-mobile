@@ -46,8 +46,6 @@ class AuthActivity : AppCompatActivity() {
                 createSignInIntentBuilder()
                     .setAvailableProviders(supportedAuth)
                     .setIsSmartLockEnabled(false)
-//                    .setLogo(R.drawable.app_logo)
-//                    .setTheme(R.style.Base_Theme_JustEat)
                     .build().apply {
                         signInLauncher.launch(this)
                     }
