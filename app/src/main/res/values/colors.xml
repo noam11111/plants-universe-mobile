@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#9CF0A3</color>  <!-- Fresh Green -->
+    <color name="colorPrimaryVariant">#388E3C</color>  <!-- Dark Green -->
+    <color name="colorSecondary">#FFEB3B</color>  <!-- Warm Yellow -->
+    <color name="colorAccent">#E8FFDF</color>  <!-- Soft Leaf Green -->
+    <color name="colorBackground">#F1F8E9</color>  <!-- Light Green Background -->
+    <color name="colorOnPrimary">#FFFFFF</color>  <!-- White for text/icons on primary -->
 </resources>
