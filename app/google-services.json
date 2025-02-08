@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "674536853195",
+    "firebase_url": "https://plants-universe-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "plants-universe",
     "storage_bucket": "plants-universe.firebasestorage.app"
   },
@@ -42,6 +43,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "674536853195-q7gldiu374hosl0hkloscnnh7df72a5j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.plantsuniverse",
+            "certificate_hash": "9983d2384d0e36b0c7aee85baea793fae3fd8a04"
+          }
+        },
         {
           "client_id": "674536853195-54nit2186fsvnofb0nd0uigtshk7phpj.apps.googleusercontent.com",
           "client_type": 3
