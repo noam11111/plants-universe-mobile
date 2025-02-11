@@ -15,12 +15,17 @@
         android:padding="12dp">
 
         <!-- Post Image -->
+
+        <!-- Username EditText -->
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/postImage"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_width="183dp"
+            android:layout_height="179dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="99dp"
+            android:layout_marginEnd="97dp"
             android:background="@android:color/darker_gray"
             android:backgroundTint="@color/white"
             android:contentDescription="Post Image"
@@ -28,7 +33,6 @@
             android:src="@drawable/default_post_img"
             app:layout_constraintDimensionRatio="1:1" />
 
-        <!-- Username EditText -->
         <EditText
             android:id="@+id/content_edit_text"
             android:layout_width="wrap_content"
@@ -68,7 +72,7 @@
 
         <!-- Add Post Button -->
         <Button
-            android:id="@+id/create_reviewer_button"
+            android:id="@+id/add_post_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Post"

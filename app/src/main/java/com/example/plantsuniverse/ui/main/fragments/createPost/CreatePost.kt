@@ -14,24 +14,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import com.example.plantsuniverse.R
 import com.example.plantsuniverse.data.posts.Post
 import com.example.plantsuniverse.retrofit.PlantsRepository
 import com.example.plantsuniverse.ui.main.PostsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
 import android.media.ExifInterface
+import com.example.plantsuniverse.R
+import com.example.plantsuniverse.databinding.FragmentCreatePostBinding
+
+enum class Mode {
+    EDIT, CREATE
+}
 
 class createPost : Fragment() {
+    private var binding: FragmentCreatePostBinding? = null
     private val plantsRepository = PlantsRepository()
     private val viewModel: PostsViewModel by activityViewModels()
     private var userId: String = FirebaseAuth.getInstance().currentUser!!.uid
+    private var mode: Mode = Mode.CREATE
 
     private lateinit var imageView: ImageView
     private lateinit var base64Image: String
@@ -42,44 +47,75 @@ class createPost : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_create_post, container, false)
+        binding = FragmentCreatePostBinding.inflate(inflater, container, false)
+        val view = binding?.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        post = arguments?.getParcelable("post")
-
-        post?.let {
-            Log.d("noam", "Received Post: $it")
-        } ?: Log.d("noam", "No post received")
-
-        val content = view.findViewById<TextView>(R.id.content_edit_text)
-        val plantTypeSpinner = view.findViewById<Spinner>(R.id.plant_type_spinner)
         imageView = view.findViewById<ImageView>(R.id.postImage)
 
-        populateSpinner(plantTypeSpinner)
 
         imageView.setOnClickListener {
             pickImageFromGallery()
         }
 
-        val addPostButton = view.findViewById<Button>(R.id.create_reviewer_button)
+        post = arguments?.getParcelable("post")
+        post?.let {
+            mode = Mode.EDIT
+            binding?.contentEditText?.setText(post!!.text)
 
-        addPostButton.setOnClickListener {
-            val selectedPlantType = plantTypeSpinner.selectedItem.toString()
-            val newPost = Post(
-                ownerId = userId,
-                text = "${content.text}\n#${selectedPlantType}",
-                photo = base64Image
-            )
-//            viewModel.addPost(newPost)
 
-            viewModel.savePost(newPost)
-            val action = createPostDirections.actionCreatePostFragmentToFeed()
-            Navigation.findNavController(it).navigate(action)
+
+            if (post?.photo?.isNotEmpty() == true) {
+                val decodedString: ByteArray = Base64.decode(it.photo, Base64.DEFAULT)
+                val bitmap: Bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                binding?.postImage?.setImageBitmap(bitmap)
+                base64Image = post?.photo!!
+            }
+
         }
 
+        binding?.let { postView ->
+            super.onViewCreated(view, savedInstanceState)
+
+            populateSpinner(postView.plantTypeSpinner)
+
+
+
+
+            if (mode == Mode.EDIT) {
+                postView.addPostButton.setText("Update Post")
+                postView.addPostButton.setOnClickListener {
+                    val selectedPlantType = binding?.plantTypeSpinner?.selectedItem.toString()
+                    val newPost = Post(
+                        id = post!!.id,
+                        ownerId = userId,
+                        text = "${binding?.contentEditText?.text}\n#${selectedPlantType}",
+                        photo = base64Image
+                    )
+                    viewModel.savePost(newPost)
+                    val action = createPostDirections.actionCreatePostFragmentToFeed()
+                    Navigation.findNavController(it).navigate(action)
+                }
+            } else if (mode == Mode.CREATE) {
+                postView.postImage.setImageResource(R.drawable.default_post_img)
+                postView.addPostButton.setText("Add Post")
+                postView.addPostButton.setOnClickListener {
+                    val selectedPlantType = binding?.plantTypeSpinner?.selectedItem.toString()
+                    val newPost = Post(
+                        ownerId = userId,
+                        text = "${binding?.contentEditText?.text}\n#${selectedPlantType}",
+                        photo = base64Image
+                    )
+                    viewModel.addPost(newPost)
+                    val action = createPostDirections.actionCreatePostFragmentToFeed()
+                    Navigation.findNavController(it).navigate(action)
+                }
+            }
+
+        }
     }
 
     val tempPlantsSpecies = arrayOf("Cactus", "Fern", "Succulent", "Rose", "Tulip")
@@ -102,13 +138,15 @@ class createPost : Fragment() {
     }
 
     private fun updatePlantsSpecies(plantTypes: Array<String>, spinner: Spinner) {
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            plantTypes
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        if (isAdded) {
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                plantTypes
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
     }
 
     private fun pickImageFromGallery() {
@@ -165,5 +203,10 @@ class createPost : Fragment() {
 
     companion object {
         private const val REQUEST_IMAGE_PICK = 1001
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }
