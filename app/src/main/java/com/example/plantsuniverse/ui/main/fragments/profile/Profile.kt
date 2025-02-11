@@ -83,15 +83,9 @@ class Profile : Fragment() {
                     it?.let { it1 -> FeedAdapter(it1, true,
                         onDeletePost = { post ->
                             viewModel.deletePostById(post.id)
-                            Log.d("noam", "delete ${post.toString()}")
                         },
                         onEditPost = { post ->
-                            Log.d("noam", "edit in Profile ${post.toString()}")
-
                             val action = ProfileDirections.actionProfileToCreatePost(post)
-                            Log.d("noam", "action ${action.toString()}")
-                            Log.d("noam", "view ${view.toString()}")
-
                             Navigation.findNavController(view).navigate(action)
                         }) }
             })
