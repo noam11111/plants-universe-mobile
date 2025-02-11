@@ -1,5 +1,8 @@
 package com.example.plantsuniverse.ui.main
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.activity.enableEdgeToEdge
@@ -30,6 +33,14 @@ class MainActivity : FragmentActivity() {
                 binding.fragmentContainerView.getFragment<NavHostFragment>().navController
             bottomNavigationView.setupWithNavController(navController)
 
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            }
         }
     }
 }

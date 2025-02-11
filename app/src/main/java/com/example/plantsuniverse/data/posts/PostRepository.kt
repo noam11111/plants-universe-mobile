@@ -1,5 +1,6 @@
 package com.example.plantsuniverse.data.posts
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.plantsuniverse.data.users.UserRepository
 import com.example.plantsuniverse.room.DatabaseHolder
@@ -18,10 +19,10 @@ class PostRepository() {
         val batchHandle = Firebase.firestore.batch()
         post.forEach {
             batchHandle.set(firestoreHandle.document(it.id), it)
+            postsDao.upsertPost(it)
         }
 
         batchHandle.commit().await()
-        postsDao.upsertAll(*post)
     }
 
     suspend fun editPost(post: Post) = withContext(Dispatchers.IO) {

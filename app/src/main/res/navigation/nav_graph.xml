@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/feed">
+
     <fragment
         android:id="@+id/feed"
         android:name="com.example.plantsuniverse.ui.main.fragments.feed.Feed"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" >
-    </fragment>
+        tools:layout="@layout/fragment_feed" />
+
     <fragment
         android:id="@+id/profile"
         android:name="com.example.plantsuniverse.ui.main.fragments.profile.Profile"
@@ -20,5 +21,10 @@
         android:id="@+id/createPost"
         android:name="com.example.plantsuniverse.ui.main.fragments.createPost.createPost"
         android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post">
+        <action
+            android:id="@+id/actionCreatePostFragmentToFeed"
+            app:destination="@id/feed" />
+    </fragment>
+
 </navigation>

@@ -8,6 +8,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.plantsuniverse.data.users.User
+import java.util.UUID
 
 @Entity(tableName = "posts",
     foreignKeys = [ForeignKey(
@@ -16,10 +17,10 @@ import com.example.plantsuniverse.data.users.User
         childColumns = ["owner_id"]
     )])
 data class Post(
-    @PrimaryKey val id: String,
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "owner_id") val ownerId: String,
-    val text: String,
-    val photo: String?
+    @ColumnInfo(name = "text") val text: String,
+    @ColumnInfo(name = "photo")val photo: String?
 ) {
     companion object {
 
