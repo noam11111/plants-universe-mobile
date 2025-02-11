@@ -1,13 +1,12 @@
 package com.example.plantsuniverse.data.posts
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.plantsuniverse.data.users.User
+import kotlinx.parcelize.Parcelize
 import java.util.UUID
 
 @Entity(tableName = "posts",
@@ -16,12 +15,14 @@ import java.util.UUID
         parentColumns = ["id"],
         childColumns = ["owner_id"]
     )])
+
+@Parcelize
 data class Post(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "owner_id") val ownerId: String,
     @ColumnInfo(name = "text") val text: String,
     @ColumnInfo(name = "photo")val photo: String?
-) {
+) : Parcelable {
     companion object {
 
         private const val ID_KEY = "id"

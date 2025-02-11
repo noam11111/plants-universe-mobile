@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantsuniverse.databinding.FragmentFeedBinding
-
-import com.example.plantsuniverse.data.posts.Post
 import com.example.plantsuniverse.ui.main.PostsViewModel
 
 class Feed : Fragment() {
@@ -21,8 +19,7 @@ class Feed : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFeedBinding.inflate(inflater, container, false)
-        val view = binding?.root
-        return view
+        return binding?.root
     }
 
     override fun onDestroy() {

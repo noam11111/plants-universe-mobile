@@ -27,7 +27,7 @@ class PostRepository() {
 
     suspend fun editPost(post: Post) = withContext(Dispatchers.IO) {
         firestoreHandle.document(post.id).set(post).await()
-        postsDao.updatePost(post)
+        postsDao.insertPosts(post)
     }
 
     suspend fun deletePostById(id: String) = withContext(Dispatchers.IO) {

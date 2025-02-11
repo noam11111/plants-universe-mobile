@@ -31,7 +31,7 @@ interface PostDao {
     fun updatePost(post: Post)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPosts(posts: List<Post>)
+    fun insertPosts(post: Post)
 
     @Upsert
     fun upsertPost(post: Post)
