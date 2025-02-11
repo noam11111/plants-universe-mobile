@@ -22,12 +22,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.plantsuniverse.R
 import com.example.plantsuniverse.data.posts.Post
+import com.example.plantsuniverse.retrofit.PlantsRepository
 import com.example.plantsuniverse.ui.main.PostsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
+import android.media.ExifInterface
 
 class createPost : Fragment() {
-
+    private val plantsRepository = PlantsRepository()
     private val viewModel: PostsViewModel by activityViewModels()
     private var userId: String = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -38,7 +40,6 @@ class createPost : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("Noam - createPost", "noammmm")
         return inflater.inflate(R.layout.fragment_create_post, container, false)
     }
 
@@ -70,10 +71,27 @@ class createPost : Fragment() {
 
     }
 
-    private fun populateSpinner(spinner: Spinner) {
-        // Plant types list to populate the spinner
-        val plantTypes = arrayOf("Cactus", "Fern", "Succulent", "Rose", "Tulip")
+    val tempPlantsSpecies = arrayOf("Cactus", "Fern", "Succulent", "Rose", "Tulip")
 
+    private fun populateSpinner(spinner: Spinner) {
+        plantsRepository.getPlants { result ->
+
+            if (result.isSuccess) {
+                val plants = result.getOrNull()
+
+                val plantTypes: Array<String> = plants?.map { it.common_name }?.toTypedArray() ?: tempPlantsSpecies
+
+                updatePlantsSpecies(plantTypes, spinner)
+
+
+            } else {
+                Log.e("noam", "Error: ${result.exceptionOrNull()?.message}")
+                updatePlantsSpecies(tempPlantsSpecies, spinner)
+            }
+        }
+    }
+
+    private fun updatePlantsSpecies(plantTypes: Array<String>, spinner: Spinner) {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -107,16 +125,32 @@ class createPost : Fragment() {
         val inputStream = requireContext().contentResolver.openInputStream(uri)
         val originalBitmap = BitmapFactory.decodeStream(inputStream)
 
-        // Reduce the dimensions of the image
-        val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, 480, 480, true) // Adjust width/height
+        val rotatedBitmap = fixImageRotation(uri, originalBitmap)
 
-        // Compress the Bitmap
+        val scaledBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 480, 480, true) // Adjust width/height
+
         val compressedStream = ByteArrayOutputStream()
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, compressedStream) // Lower quality to 30%
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, compressedStream) // Lower quality to 70%
         val compressedByteArray = compressedStream.toByteArray()
 
-        // Convert to Base64
         return Base64.encodeToString(compressedByteArray, Base64.DEFAULT)
+    }
+
+    private fun fixImageRotation(uri: Uri, bitmap: Bitmap): Bitmap {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val exif = ExifInterface(inputStream!!)
+
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        val matrix = android.graphics.Matrix()
+
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
     companion object {
