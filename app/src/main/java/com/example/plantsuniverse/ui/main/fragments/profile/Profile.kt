@@ -6,15 +6,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantsuniverse.R
 import com.example.plantsuniverse.data.users.User
@@ -22,6 +23,7 @@ import com.example.plantsuniverse.databinding.FragmentProfileBinding
 import com.example.plantsuniverse.ui.auth.AuthActivity
 import com.example.plantsuniverse.ui.main.PostsViewModel
 import com.example.plantsuniverse.ui.main.fragments.feed.FeedAdapter
+import com.example.plantsuniverse.ui.main.fragments.feed.FeedDirections
 import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
 
@@ -78,7 +80,20 @@ class Profile : Fragment() {
 
             viewModel.getAllPostsByUserId(userId).observe(viewLifecycleOwner, {
                 profileView.profilePostsRecyclerView.adapter =
-                    it?.let { it1 -> FeedAdapter(it1, true) }
+                    it?.let { it1 -> FeedAdapter(it1, true,
+                        onDeletePost = { post ->
+                            viewModel.deletePostById(post.id)
+                            Log.d("noam", "delete ${post.toString()}")
+                        },
+                        onEditPost = { post ->
+                            Log.d("noam", "edit in Profile ${post.toString()}")
+
+                            val action = ProfileDirections.actionProfileToCreatePost(post)
+                            Log.d("noam", "action ${action.toString()}")
+                            Log.d("noam", "view ${view.toString()}")
+
+                            Navigation.findNavController(view).navigate(action)
+                        }) }
             })
 
             viewModel.getUserById(userId).observe(viewLifecycleOwner, {

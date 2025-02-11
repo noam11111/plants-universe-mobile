@@ -36,6 +36,8 @@ class createPost : Fragment() {
     private lateinit var imageView: ImageView
     private lateinit var base64Image: String
 
+    private var post: Post? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +47,13 @@ class createPost : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        post = arguments?.getParcelable("post")
+
+        post?.let {
+            Log.d("noam", "Received Post: $it")
+        } ?: Log.d("noam", "No post received")
+
         val content = view.findViewById<TextView>(R.id.content_edit_text)
         val plantTypeSpinner = view.findViewById<Spinner>(R.id.plant_type_spinner)
         imageView = view.findViewById<ImageView>(R.id.postImage)
@@ -64,7 +73,9 @@ class createPost : Fragment() {
                 text = "${content.text}\n#${selectedPlantType}",
                 photo = base64Image
             )
-            viewModel.addPost(newPost)
+//            viewModel.addPost(newPost)
+
+            viewModel.savePost(newPost)
             val action = createPostDirections.actionCreatePostFragmentToFeed()
             Navigation.findNavController(it).navigate(action)
         }
@@ -85,7 +96,6 @@ class createPost : Fragment() {
 
 
             } else {
-                Log.e("noam", "Error: ${result.exceptionOrNull()?.message}")
                 updatePlantsSpecies(tempPlantsSpecies, spinner)
             }
         }

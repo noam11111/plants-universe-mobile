@@ -5,23 +5,42 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/feed">
 
+
     <fragment
         android:id="@+id/feed"
         android:name="com.example.plantsuniverse.ui.main.fragments.feed.Feed"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/actionFeedToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/actionFeedToCreatePost"
+            app:destination="@id/createPost">
+            <argument
+                android:name="post"
+                app:argType="com.example.plantsuniverse.data.posts.Post"  />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
         android:name="com.example.plantsuniverse.ui.main.fragments.profile.Profile"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/actionProfileToCreatePost"
+            app:destination="@id/createPost" />
+    </fragment>
 
     <fragment
         android:id="@+id/createPost"
         android:name="com.example.plantsuniverse.ui.main.fragments.createPost.createPost"
         android:label="fragment_create_post"
         tools:layout="@layout/fragment_create_post">
+        <argument
+            android:name="post"
+            app:argType="com.example.plantsuniverse.data.posts.Post"  />
         <action
             android:id="@+id/actionCreatePostFragmentToFeed"
             app:destination="@id/feed" />

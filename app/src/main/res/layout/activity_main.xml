@@ -35,8 +35,8 @@
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
             android:text="Plants Universe"
-            android:textSize="18sp"
-            android:textColor="?attr/colorPrimary"/>
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
