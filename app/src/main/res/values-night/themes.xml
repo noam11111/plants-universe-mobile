@@ -3,7 +3,7 @@
     <style name="Base.Theme.PlantsUniverse" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>  <!-- Deep Green -->
         <item name="colorPrimaryVariant">#2E7D32</item>
-        <item name="colorSecondary">#C0CA33</item>  <!-- Muted Yellow -->
+        <item name="colorSecondary">#6CBD4F</item>  <!-- Muted Yellow -->
         <item name="colorOnBackground">#121212</item>  <!-- Dark Gray -->
         <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>

@@ -24,6 +24,7 @@ import com.example.plantsuniverse.ui.main.PostsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.io.ByteArrayOutputStream
 import android.media.ExifInterface
+import android.widget.ProgressBar
 import com.example.plantsuniverse.R
 import com.example.plantsuniverse.databinding.FragmentCreatePostBinding
 
@@ -66,8 +67,6 @@ class createPost : Fragment() {
             mode = Mode.EDIT
             binding?.contentEditText?.setText(post!!.text)
 
-
-
             if (post?.photo?.isNotEmpty() == true) {
                 val decodedString: ByteArray = Base64.decode(it.photo, Base64.DEFAULT)
                 val bitmap: Bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
@@ -81,8 +80,6 @@ class createPost : Fragment() {
             super.onViewCreated(view, savedInstanceState)
 
             populateSpinner(postView.plantTypeSpinner)
-
-
 
 
             if (mode == Mode.EDIT) {
@@ -121,20 +118,20 @@ class createPost : Fragment() {
     val tempPlantsSpecies = arrayOf("Cactus", "Fern", "Succulent", "Rose", "Tulip")
 
     private fun populateSpinner(spinner: Spinner) {
-        plantsRepository.getPlants { result ->
+        val progressBar = binding?.progressBar
 
+        plantsRepository.getPlants({ result ->
             if (result.isSuccess) {
                 val plants = result.getOrNull()
+
 
                 val plantTypes: Array<String> = plants?.map { it.common_name }?.toTypedArray() ?: tempPlantsSpecies
 
                 updatePlantsSpecies(plantTypes, spinner)
-
-
             } else {
                 updatePlantsSpecies(tempPlantsSpecies, spinner)
             }
-        }
+        }, progressBar)
     }
 
     private fun updatePlantsSpecies(plantTypes: Array<String>, spinner: Spinner) {
