@@ -21,6 +21,9 @@ interface PostDao {
     @Query("SELECT * FROM posts WHERE owner_id =:ownerId")
     fun getPostsByOwnerId(ownerId: String): LiveData<List<PostWithOwner>?>
 
+    @Query("DELETE FROM posts")
+    fun deleteAll()
+
     @Delete
     fun delete(post: Post)
 

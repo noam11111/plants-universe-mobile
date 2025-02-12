@@ -48,20 +48,10 @@ class PostRepository() {
         return postsDao.getAllPosts()
     }
 
-    suspend fun loadPostFromRemoteSource(id: String) = withContext(Dispatchers.IO) {
-        val post =
-            firestoreHandle.document(id).get().await().toObject(PostDTO::class.java)
-                ?.toPostModel()
-        if (post != null) {
-            postsDao.upsertAll(post)
-            userRepository.cacheUserIfNotExisting(post.ownerId)
-        }
-
-        return@withContext postsDao.findById(id)
-    }
-
     suspend fun loadPostsFromRemoteSource() =
         withContext(Dispatchers.IO) {
+            postsDao.deleteAll()
+
             val posts = firestoreHandle.get().await().toObjects(PostDTO::class.java)
                 .map { it.toPostModel() }
 
