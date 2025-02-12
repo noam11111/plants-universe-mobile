@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,15 +82,9 @@ class Profile : Fragment() {
                     it?.let { it1 -> FeedAdapter(it1, true,
                         onDeletePost = { post ->
                             viewModel.deletePostById(post.id)
-                            Log.d("noam", "delete ${post.toString()}")
                         },
                         onEditPost = { post ->
-                            Log.d("noam", "edit in Profile ${post.toString()}")
-
                             val action = ProfileDirections.actionProfileToCreatePost(post)
-                            Log.d("noam", "action ${action.toString()}")
-                            Log.d("noam", "view ${view.toString()}")
-
                             Navigation.findNavController(view).navigate(action)
                         }) }
             })
