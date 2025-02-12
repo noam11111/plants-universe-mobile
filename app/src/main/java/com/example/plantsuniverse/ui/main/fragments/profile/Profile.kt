@@ -21,10 +21,12 @@ import com.example.plantsuniverse.data.users.User
 import com.example.plantsuniverse.databinding.FragmentProfileBinding
 import com.example.plantsuniverse.ui.auth.AuthActivity
 import com.example.plantsuniverse.ui.main.PostsViewModel
+import com.example.plantsuniverse.ui.main.Utils
 import com.example.plantsuniverse.ui.main.fragments.feed.FeedAdapter
-import com.example.plantsuniverse.ui.main.fragments.feed.FeedDirections
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class Profile : Fragment() {
     private var binding: FragmentProfileBinding? = null
@@ -52,8 +54,7 @@ class Profile : Fragment() {
                             val bitmap = BitmapFactory.decodeStream(inputStream)
                             binding!!.profilePicture.setImageBitmap(bitmap)
 
-                            // Convert bitmap to Base64 and send to the server
-                            val base64String = encodeImageToBase64(bitmap)
+                            val base64String = Utils.convertImageToBase64(bitmap)
                             user?.let {
                                 viewModel.updateUser(
                                     User(it.id, it.username, base64String, it.email)
@@ -105,9 +106,11 @@ class Profile : Fragment() {
             })
 
             profileView.profilePicture.setOnClickListener {
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                galleryLauncher?.launch(intent)
+                if(isEditing) {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    galleryLauncher?.launch(intent)
+                }
             }
 
 
@@ -158,12 +161,5 @@ class Profile : Fragment() {
 
             }
         }
-    }
-
-    private fun encodeImageToBase64(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 }
