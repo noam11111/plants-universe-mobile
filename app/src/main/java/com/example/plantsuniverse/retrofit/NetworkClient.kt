@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
 object NetworkClient {
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)  // Set connection timeout
-            .readTimeout(60, TimeUnit.SECONDS)     // Set read timeout
-            .writeTimeout(60, TimeUnit.SECONDS)    // Set write timeout
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
     }
 
