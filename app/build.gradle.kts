@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.ui.auth)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(platform(libs.firebase.bom))
@@ -84,4 +85,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 }
