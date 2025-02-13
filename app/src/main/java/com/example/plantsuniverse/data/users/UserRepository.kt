@@ -17,10 +17,10 @@ class UserRepository {
         usersDao.upsertUser(user)
     }
 
-    suspend fun cacheUserIfNotExisting(id: String) = withContext(Dispatchers.IO) {
-        val cachedResult = usersDao.getUserById(id)
-        if (cachedResult == null) {
-            this@UserRepository.getUserFromRemoteSource(id)
+    suspend fun insertUserIfNotExists(user: User) = withContext(Dispatchers.IO) {
+        val documentSnapshot = firestoreHandle.document(user.id).get().await()
+        if (!documentSnapshot.exists()) {
+            usersDao.upsertUser(user)
         }
     }
 
