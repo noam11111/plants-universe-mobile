@@ -55,11 +55,12 @@ class Profile : Fragment() {
                             binding!!.profilePicture.setImageBitmap(bitmap)
 
                             val base64String = Utils.convertImageToBase64(bitmap)
-                            user?.let {
-                                viewModel.updateUser(
-                                    User(it.id, it.username, base64String, it.email)
-                                )
-                            }
+                            val newUser =
+                                User(user!!.id, user!!.username, base64String, user!!.email)
+                            user = newUser
+                            viewModel.updateUser(
+                                newUser
+                            )
                         }
                     }
                 }
@@ -80,14 +81,16 @@ class Profile : Fragment() {
 
             viewModel.getAllPostsByUserId(userId).observe(viewLifecycleOwner, {
                 profileView.profilePostsRecyclerView.adapter =
-                    it?.let { it1 -> FeedAdapter(it1, true,
-                        onDeletePost = { post ->
-                            viewModel.deletePostById(post.id)
-                        },
-                        onEditPost = { post ->
-                            val action = ProfileDirections.actionProfileToCreatePost(post)
-                            Navigation.findNavController(view).navigate(action)
-                        }) }
+                    it?.let { it1 ->
+                        FeedAdapter(it1, true,
+                            onDeletePost = { post ->
+                                viewModel.deletePostById(post.id)
+                            },
+                            onEditPost = { post ->
+                                val action = ProfileDirections.actionProfileToCreatePost(post)
+                                Navigation.findNavController(view).navigate(action)
+                            })
+                    }
             })
 
             viewModel.getUserById(userId).observe(viewLifecycleOwner, {
@@ -106,7 +109,7 @@ class Profile : Fragment() {
             })
 
             profileView.profilePicture.setOnClickListener {
-                if(isEditing) {
+                if (isEditing) {
                     val intent = Intent(Intent.ACTION_PICK)
                     intent.type = "image/*"
                     galleryLauncher?.launch(intent)

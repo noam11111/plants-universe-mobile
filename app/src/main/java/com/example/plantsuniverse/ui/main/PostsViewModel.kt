@@ -23,6 +23,7 @@ class PostsViewModel : ViewModel() {
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.loadPostsFromRemoteSource()
+            Log.d("PostsViewModel", "Posts loaded from remote source")
         }
     }
 
