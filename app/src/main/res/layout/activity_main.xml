@@ -57,6 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:itemIconTint="@color/colorPrimary"
         app:itemPaddingBottom="0dp"
         app:labelVisibilityMode="labeled"
