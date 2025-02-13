@@ -40,7 +40,7 @@ class createPost : Fragment() {
     private var mode: Mode = Mode.CREATE
 
     private lateinit var imageView: ImageView
-    private lateinit var base64Image: String
+    private var base64Image: String = ""
 
     private var post: Post? = null
 
