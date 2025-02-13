@@ -11,7 +11,7 @@ class LoginViewModel: ViewModel() {
     private val usersRepository = UserRepository()
     fun register(onFinishUi: () -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
-            usersRepository.upsertUser(User.fromFirebaseAuth())
+            usersRepository.insertUserIfNotExists(User.fromFirebaseAuth())
             onFinishUi()
         }
     }
